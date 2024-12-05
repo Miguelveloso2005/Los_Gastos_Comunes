@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Estilo global */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 400px;
+            margin: 20px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        .btn-submit {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 0;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-back {
+            background-color: #f1f1f1;
+            color: #007BFF;
+            padding: 10px 0;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            text-align: center;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn-back:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Iniciar Sesión</h1>
+
+        <!-- Formulario de login -->
+        <form method="POST">
+            {% csrf_token %}
+            <label for="username">Nombre de Usuario:</label>
+            <input type="text" id="username" name="username" placeholder="Tu nombre de usuario" required>
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" placeholder="Tu contraseña" required>
+
+            <button type="submit" class="btn-submit">Iniciar sesión</button>
+        </form>
+
+        <!-- Enlace para registrarse como residente -->
+        <a href="{% url 'residente_form' %}" class="btn-back">Registrarse como Residente</a>
+    </div>
+</body>
+</html>

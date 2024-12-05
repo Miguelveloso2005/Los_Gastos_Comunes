@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gastos Pendientes</title>
+    <style>
+        /* Estilos globales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #007BFF;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Barra de navegación */
+        nav {
+            background-color: #007BFF;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        nav a {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-right: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-pendientes {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            float: right;
+        }
+
+        .btn-pendientes:hover {
+            background-color: #218838;
+        }
+
+        .form-container, .table-container {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .btn-pay {
+            background-color: #007BFF;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-pay:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo para el botón Atrás */
+        .btn-back {
+            background-color: #f1f1f1;
+            color: #007BFF;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .btn-back:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav>
+        <a href="{% url 'login' %}">Inicio</a>
+        <a href="{% url 'pendientes' %}" class="btn-pendientes"> Gastos Pendientes</a>
+    </nav>
+
+    <div class="container">
+        <h1>Gastos Pendientes</h1>
+
+        <!-- Tabla de gastos pendientes -->
+        <div class="table-container">
+            <h2>Lista de Gastos Pendientes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Número de Departamento</th>
+                        <th>Período</th>
+                        <th>Monto Adeudado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for gasto in gastos_pendientes %}
+                        <tr>
+                            <td>{{ gasto.departamento.numero }}</td>
+                            <td>{{ gasto.periodo }}</td>
+                            <td>${{ gasto.monto_adeudado }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Botón de atrás -->
+        <a href="{% url 'generate_expenses' %}" class="btn-back">Volver a la Página de Gastos</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Aquí puedes agregar cualquier funcionalidad adicional si es necesario
+        });
+    </script>
+</body>
+</html>

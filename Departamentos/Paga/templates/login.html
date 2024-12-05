@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <style>
+        /* Estilo global */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Contenedor principal para la sección de login */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            width: 80%;
+            max-width: 1200px;
+            box-sizing: border-box;
+        }
+
+        .login-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 45%;
+            margin: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .btn-submit {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 0;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-residente {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 0;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .btn-residente:hover {
+            background-color: #218838;
+        }
+
+        .error {
+            color: red;
+            font-size: 1.2em;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Mejorar presentación en pantallas pequeñas */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+            }
+
+            .login-box {
+                width: 80%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Login para Administrador -->
+        <div class="login-box">
+            <h2>Iniciar sesión como Administrador</h2>
+            
+            <!-- Mostrar mensaje de error si existe -->
+            {% if messages %}
+                <div class="error">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Usuario" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit" class="btn-submit">Entrar como Administrador</button>
+            </form>
+
+            <!-- Botón para redirigir a la página de Residente -->
+            <a href="{% url 'residente' %}">
+                <button class="btn-residente">Ir a la página de Residente</button>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Los Gastos Comunes - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>

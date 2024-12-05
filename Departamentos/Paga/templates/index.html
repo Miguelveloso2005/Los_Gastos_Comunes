@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Los Gastos Comunes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        p {
+            font-size: 1.2em;
+        }
+
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px;
+        }
+
+        .btn-link {
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            margin: 10px;
+            text-align: center;
+            width: 60%;
+        }
+
+        .btn-link:hover {
+            background-color: #218838;
+        }
+
+        .gasto-lista {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .gasto-lista li {
+            margin: 8px 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bienvenido a la administración de gastos comunes</h1>
+        <p>Gestiona los gastos comunes de tu comunidad de manera eficiente.</p>
+    </header>
+
+    <div class="content">
+        <!-- Enlace a login para Generar gastos -->
+        <a href="{% url 'login' %}" class="btn-link">Generar gastos</a>
+        
+        <!-- Enlace a login para Ver gastos pendientes -->
+        <a href="{% url 'login' %}" class="btn-link">Ver gastos pendientes</a>
+
+        
+        <ul class="gasto-lista">
+            {% for gasto in gastos %}
+                <li>
+                    <a href="{% url 'mark_paid' gasto.id %}">Marcar gasto {{ gasto.id }} como pagado</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Los Gastos Comunes - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
+
+
