@@ -139,6 +139,33 @@
         .btn-back:hover {
             background-color: #e0e0e0;
         }
+
+        /* Estilos para los nuevos cuadros */
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .user-info div {
+            width: 48%;
+        }
+
+        .status {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .btn-change-status {
+            background-color: #ffc107;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-change-status:hover {
+            background-color: #e0a800;
+        }
     </style>
 </head>
 <body>
@@ -160,16 +187,40 @@
                         <th>Número de Departamento</th>
                         <th>Período</th>
                         <th>Monto Adeudado</th>
+                        <th>Usuario</th>
+                        <th>Persona que Debe</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for gasto in gastos_pendientes %}
-                        <tr>
-                            <td>{{ gasto.departamento.numero }}</td>
-                            <td>{{ gasto.periodo }}</td>
-                            <td>${{ gasto.monto_adeudado }}</td>
-                        </tr>
-                    {% endfor %}
+                    <!-- Ejemplo de fila con datos -->
+                    <tr>
+                        <td>101</td>
+                        <td>Enero 2025</td>
+                        <td>$200</td>
+                        <td>Juan Pérez</td>
+                        <td>Ana González</td>
+                        <td>Pago de mantenimiento común</td>
+                        <td class="status">Pendiente</td>
+                        <td>
+                            <a href="#" class="btn-change-status" onclick="changeStatus(this)">Marcar como Pagado</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Febrero 2025</td>
+                        <td>$150</td>
+                        <td>Laura Rodríguez</td>
+                        <td>Carlos López</td>
+                        <td>Gasto de jardinería</td>
+                        <td class="status">Pagado</td>
+                        <td>
+                            <a href="#" class="btn-change-status" onclick="changeStatus(this)">Marcar como Pendiente</a>
+                        </td>
+                    </tr>
+                    <!-- Más filas de ejemplo pueden ser añadidas aquí -->
                 </tbody>
             </table>
         </div>
@@ -179,9 +230,27 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Aquí puedes agregar cualquier funcionalidad adicional si es necesario
-        });
+        function changeStatus(button) {
+            // Cambiar el estado en la misma fila
+            const row = button.closest('tr');
+            const statusCell = row.querySelector('.status');
+            const actionCell = row.querySelector('td:last-child a');
+            
+            // Cambiar entre 'Pendiente' y 'Pagado'
+            if (statusCell.textContent.trim() === 'Pendiente') {
+                statusCell.textContent = 'Pagado';
+                actionCell.textContent = 'Marcar como Pendiente';
+                actionCell.setAttribute('onclick', 'changeStatus(this)');
+                actionCell.classList.remove('btn-change-status');
+                actionCell.classList.add('btn-change-status');
+            } else {
+                statusCell.textContent = 'Pendiente';
+                actionCell.textContent = 'Marcar como Pagado';
+                actionCell.setAttribute('onclick', 'changeStatus(this)');
+                actionCell.classList.remove('btn-change-status');
+                actionCell.classList.add('btn-change-status');
+            }
+        }
     </script>
 </body>
 </html>

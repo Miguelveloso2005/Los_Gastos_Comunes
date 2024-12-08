@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Exitoso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #28a745;
+        }
+        p {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+        .button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>¡Registro Exitoso!</h2>
+        <p>Hola, {{ nombre }}. Ahora puedes ver tus gastos comunes.</p>
+        <div style="text-align: center;">
+            <!-- Enlace al página de gastos comunes del residente -->
+            <a href="{% url 'pagar_residente' %}" class="button">Ver Mis Gastos Comunes</a>
+        </div>
+    </div>
+</body>
+</html>

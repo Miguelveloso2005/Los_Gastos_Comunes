@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Gastos Comunes - Simulación</title>
+    <style>
+        /* Estilos básicos */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+        }
+
+        /* Barra de navegación */
+        nav {
+            background-color: #007BFF;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        nav button {
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            font-size: 16px;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        nav button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo principal de la página */
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .table-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .status-pagado {
+            color: green;
+            font-weight: bold;
+        }
+        .status-pendiente {
+            color: red;
+            font-weight: bold;
+        }
+        .pay-button {
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .pay-button:disabled {
+            background-color: gray;
+        }
+    </style>
+    <script>
+        // Función para mostrar la alerta de pago y cambiar el estado
+        function pagarGasto(button) {
+            // Mostrar una alerta
+            alert("¡El gasto ha sido pagado!");
+
+            // Obtener la fila del gasto
+            var row = button.parentElement.parentElement;
+            
+            // Cambiar el estado de la columna "Estado"
+            var estadoCell = row.cells[4]; // La columna de estado es la 5ta (índice 4)
+            estadoCell.innerHTML = '<span class="status-pagado">Pagado</span>';
+
+            // Deshabilitar el botón y cambiar su estado
+            button.disabled = true;
+            button.style.backgroundColor = "gray";
+            button.innerHTML = "Pagado";
+        }
+    </script>
+</head>
+<body>
+    <!-- Barra de navegación con botón de login -->
+    <a href="{% url 'login' %}" class="login-button">Ir al Login</a>
+
+
+
+    <h1>Listado de Gastos Comunes - Simulación</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Ejemplo de datos simulados -->
+                <tr>
+                    <td>Juan Pérez</td>
+                    <td>Pago de agua</td>
+                    <td>$50.00</td>
+                    <td>2024-12-01</td>
+                    <td>
+                        <span class="status-pendiente">Pendiente</span>
+                    </td>
+                    <td>
+                        <button class="pay-button" onclick="pagarGasto(this)">Pagar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Ana Gómez</td>
+                    <td>Pago de electricidad</td>
+                    <td>$75.25</td>
+                    <td>2024-12-03</td>
+                    <td>
+                        <span class="status-pagado">Pagado</span>
+                    </td>
+                    <td>
+                        <button class="pay-button" disabled>Pagar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Marco López</td>
+                    <td>Mantenimiento mensual</td>
+                    <td>$120.00</td>
+                    <td>2024-11-28</td>
+                    <td>
+                        <span class="status-pendiente">Pendiente</span>
+                    </td>
+                    <td>
+                        <button class="pay-button" onclick="pagarGasto(this)">Pagar</button>
+                    </td>
+                </tr>
+                <!-- Fin de los datos simulados -->
+
+                <!-- Si no hay registros -->
+                <tr>
+                    <td colspan="6">No hay gastos registrados.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

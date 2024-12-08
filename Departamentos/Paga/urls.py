@@ -12,6 +12,9 @@ urlpatterns = [
     path('residente_pago/', views.residente_pago, name='residente_pago'),
     path('gasto/pagado/', views.marcar_gastos_pagados, name='marcar_gastos_pagados'),
     path('residente_form/', views.residente_form, name='residente_form'),
+    path('pagar_residente/', views.pagar_residente, name='pagar_residente'),
+
+    
 
 
 

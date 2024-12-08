@@ -161,6 +161,9 @@
             <h2>Nuevo Gasto Común</h2>
             <form id="expense-form" method="POST" action="{% url 'generate_expenses' %}">
                 {% csrf_token %}
+                <label for="amount">Nombre:</label>
+                <input type="text" name="amount" id="amount" required>
+
                 <label for="amount">Monto del Gasto:</label>
                 <input type="number" name="amount" id="amount" required>
                 
@@ -174,11 +177,10 @@
         <!-- Tabla de gastos generados -->
         <div class="table-container">
             <h2>Gastos Generados</h2>
-            <button id="mark-all-paid" class="btn-mark-paid">Marcar Todos como Pagados</button> <!-- Nuevo botón -->
             <table>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="select-all"> Seleccionar Todos</th> <!-- Nuevo checkbox -->
+                        <th><input type="checkbox" id="select-all"> Seleccionar Todos</th>
                         <th>ID</th>
                         <th>Descripción</th>
                         <th>Monto</th>
@@ -189,7 +191,7 @@
                 <tbody>
                     {% for gasto in gastos %}
                         <tr data-id="{{ gasto.id }}">
-                            <td><input type="checkbox" class="select-gasto" data-id="{{ gasto.id }}"></td> <!-- Checkbox de selección -->
+                            <td><input type="checkbox" class="select-gasto" data-id="{{ gasto.id }}"></td>
                             <td>{{ gasto.id }}</td>
                             <td>{{ gasto.descripcion }}</td>
                             <td>${{ gasto.monto }}</td>
@@ -216,53 +218,49 @@
             const form = document.querySelector("form");
             const tableBody = document.querySelector("table tbody");
             const selectAllCheckbox = document.querySelector("#select-all");
-            const markAllButton = document.querySelector("#mark-all-paid");
             const messageContainer = document.querySelector("#message-container");
 
             // Obtener el token CSRF
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-            // Evento para marcar todos los gastos como pagados
-            markAllButton.addEventListener("click", async function () {
-                const selectedGastos = document.querySelectorAll(".select-gasto:checked");
-
-                if (selectedGastos.length === 0) {
-                    alert("Por favor, selecciona al menos un gasto.");
-                    return;
-                }
-
-                const gastoIds = Array.from(selectedGastos).map(checkbox => checkbox.dataset.id);
-
-                try {
-                    const response = await fetch(`/gasto/pagado/`, {
-                        method: "POST",
-                        headers: {
-                            "X-CSRFToken": csrfToken,
-                            "X-Requested-With": "XMLHttpRequest",
-                        },
-                        body: JSON.stringify({ gasto_ids: gastoIds }), // Enviar los IDs seleccionados
-                    });
-
-                    if (response.ok) {
-                        selectedGastos.forEach(checkbox => {
-                            const row = checkbox.closest('tr');
-                            row.remove();
-                        });
-                        showMessage("Todos los gastos seleccionados se marcaron como pagados exitosamente.");
-                    } else {
-                        alert("Error al marcar los gastos como pagados.");
-                    }
-                } catch (error) {
-                    console.error("Error al procesar la solicitud:", error);
-                    alert("Hubo un error al procesar la solicitud.");
-                }
-            });
 
             // Evento para seleccionar todos los gastos
             selectAllCheckbox.addEventListener("change", function () {
                 const checkboxes = document.querySelectorAll(".select-gasto");
                 checkboxes.forEach(checkbox => {
                     checkbox.checked = selectAllCheckbox.checked;
+                });
+            });
+
+            // Evento para marcar como pagado
+            const markPaidButtons = document.querySelectorAll(".btn-mark-paid");
+            markPaidButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const gastoId = button.getAttribute("data-id");
+
+                    fetch(`/gasto/pagado/${gastoId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: JSON.stringify({ id: gastoId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Eliminar la fila de la tabla
+                            const row = document.querySelector(`tr[data-id="${gastoId}"]`);
+                            row.remove();
+
+                            // Mostrar mensaje de éxito
+                            showMessage('Gasto marcado como pagado');
+                        } else {
+                            showMessage('Error al marcar como pagado');
+                        }
+                    })
+                    .catch(error => {
+                        showMessage('Hubo un error al procesar la solicitud');
+                    });
                 });
             });
 

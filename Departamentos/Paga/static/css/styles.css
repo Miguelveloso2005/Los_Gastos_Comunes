@@ -1,7 +1,76 @@
+/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
 }
 
+/* Contenedor de contenido */
 .content {
     margin-top: 20px;
+}
+
+/* Estilos para la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 1px solid #ccc; /* Borde exterior de la tabla */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333; /* Color de texto más oscuro para los encabezados */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Color de fondo para filas pares */
+}
+
+tr.vencida {
+    background-color: #ffdddd; /* Color de fondo para filas vencidas */
+}
+
+/* Estilos para montos */
+.monto-pagado {
+    color: green; /* Color para montos pagados */
+}
+
+.monto-pendiente {
+    color: red; /* Color para montos pendientes */
+}
+
+/* Estilos para el botón de Login */
+.login-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #0056b3;  /* Cambia el color cuando el usuario pasa el cursor */
+    transform: scale(1.1);  /* Hace que el botón se agrande un poco */
+}
+
+.login-button:active {
+    background-color: #003f7f;  /* Color al hacer clic */
+    transform: scale(1.05);  /* Reduce un poco el tamaño al hacer clic */
+}
+
+.login-button:focus {
+    outline: none;  /* Elimina el borde azul que aparece al hacer clic */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Agrega un suave resplandor azul cuando se selecciona */
 }

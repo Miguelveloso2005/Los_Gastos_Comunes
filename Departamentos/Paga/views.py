@@ -15,6 +15,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .models import Residente
 from .models import GastoComún
+from django.contrib.auth.models import User
+
 
 
 def login_view(request):
@@ -150,32 +152,15 @@ def pendientes(request):
     # Lógica para mostrar los gastos pendientes
     return render(request, 'pendientes.html')
 
-def marcar_como_pagado(request):
+def marcar_como_pagado(request, gasto_id):
     if request.method == 'POST':
-        try:
-            # Obtener los IDs de los gastos marcados como pagados
-            gasto_ids = request.POST.getlist('gasto_ids[]')
-            gastos = Gasto.objects.filter(id__in=gasto_ids)
+        # Aquí marcas el gasto como pagado
+        gasto = Gasto.objects.get(id=gasto_id)
+        gasto.estado = 'Pagado'  # O como se gestione el estado
+        gasto.save()
 
-            # Marcar todos los gastos como pagados
-            for gasto in gastos:
-                gasto.estado = 'pagado'  # Asegúrate de que 'estado' exista en tu modelo
-                gasto.save()
-
-            return JsonResponse({
-                'success': True,
-                'message': 'Gastos marcados como pagados',
-            })
-        except Exception as e:
-            return JsonResponse({
-                'success': False,
-                'message': f'Error al marcar los gastos como pagados: {str(e)}',
-            })
-    else:
-        return JsonResponse({
-            'success': False,
-            'message': 'Método no permitido',
-        })
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False}, status=400)
 
 
 def pagar_gasto_comun(request, gasto_id):
@@ -274,3 +259,46 @@ def eliminar_gasto(request, gasto_id):
     except GastoComun.DoesNotExist:
         messages.error(request, "El gasto no existe.")
     return redirect('generate_expenses')  # Redirigir a la página donde se muestran los gastos
+
+
+
+def registrar_residente(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        # Verificar si las contraseñas coinciden
+        if password != confirm_password:
+            messages.error(request, 'Las contraseñas no coinciden.')
+            return redirect('residente_form')  # Redirige al formulario de registro
+
+        # Verificar si el correo ya está registrado
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'El correo electrónico ya está registrado.')
+            return redirect('residente_form')  # Redirige al formulario de registro
+
+        # Crear el nuevo residente (usuario)
+        try:
+            user = User.objects.create_user(username=email, email=email, password=password)
+            user.first_name = nombre  # Guardar el nombre completo
+            user.save()
+
+            # Autenticar al usuario y redirigir a la página de inicio de sesión o residente
+            login(request, user)
+            return redirect('residente')  # Redirigir a la página de residente después del registro
+        except Exception as e:
+            messages.error(request, f'Ocurrió un error: {e}')
+            return redirect('residente_form')
+    else:
+        return render(request, 'residente_form.html')
+    
+    
+def pagar_residente(request):
+    return render(request, 'pagar_residente.html')
+
+
+
+
+
